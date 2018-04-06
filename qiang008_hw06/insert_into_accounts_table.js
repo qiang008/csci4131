@@ -9,7 +9,7 @@ var sha1 = require('sha1');
 
 var con = mysql.createConnection({
   host: "cse-curly.cse.umn.edu",
-  user: "C4131S18U103", // replace with the database user provided to you
+  user: "root", // replace with the database user provided to you
   password: "108", // replace with the database password provided to you
   database: "C4131S18U103", // replace with the database user provided to you
   port: 3306

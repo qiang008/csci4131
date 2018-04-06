@@ -3,9 +3,7 @@ TO DO:
 -----
 READ ALL COMMENTS AND REPLACE VALUES ACCORDINGLY
 */
-
 var mysql = require("mysql");
-
 var con = mysql.createConnection({
   host: "cse-curly.cse.umn.edu",
   user: "C4131S18U103", // replace with the database user provided to you
