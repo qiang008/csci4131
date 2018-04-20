@@ -7,10 +7,9 @@ READ ALL COMMENTS AND REPLACE VALUES ACCORDINGLY
 var mysql = require("mysql");
 
 var con = mysql.createConnection({
-  // host: "cse-curly.cse.umn.edu",
-  host: "127.0.0.1",
-  user: "root", // replace with the database user provided to you
-  password: "", // replace with the database password provided to you
+  host: "cse-curly.cse.umn.edu",
+  user: "C4131S18U103", // replace with the database user provided to you
+  password: "108", // replace with the database password provided to you
   // password: "108", // replace with the database password provided to you
   database: "C4131S18U103", // replace with the database user provided to you
   port: 3306
