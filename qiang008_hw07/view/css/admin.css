@@ -1,0 +1,16 @@
+#usersTable thead {
+    background-color: #347136;
+    color: #fff;
+    text-align: center;
+}
+#usersTable thead th {
+    text-align: center;
+}
+
+.err-box {
+    height: 100px;
+    line-height: 100px;
+}
+.err-box .err-msg {
+    color: #aa0000;
+}

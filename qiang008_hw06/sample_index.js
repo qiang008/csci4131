@@ -20,7 +20,7 @@ var sha1 = require('sha1');
 
 // include the mysql module
 var mysql = require("mysql");
-// 连接数据库，创建连接池
+// connect to sql
 var con = mysql.createPool({
   host: "cse-curly.cse.umn.edu",
   user: "C4131S18U103", // replace with the database user provided to you
@@ -57,8 +57,8 @@ app.listen(9007, () => console.log('Listening on port 9007!'));
 // It serves favourites.html present in client folder
 app.get('/favourites', function (req, res) {
   // ADD DETAILS...
-  // 判断 session 里有木有 username 有则为登入了返回正确页面，没有重定向到登录页
-  if (!req.session.username) {
+  // decide whether username is in session
+    if (!req.session.username) {
     res.statusCode = 301
     res.redirect('/')
   } else {
@@ -78,7 +78,7 @@ app.get('/favourites', function (req, res) {
 // It serves addPlace.html present in client folder
 app.get('/addPlace', function (req, res) {
   // ADD DETAILS...
-  // 判断 session 里有木有 username 有则为登入了返回正确页面，没有重定向到登录页
+  // test wether have username
   if (!req.session.username) {
     res.statusCode = 301
     res.redirect('/')
@@ -100,7 +100,6 @@ app.get('/addPlace', function (req, res) {
 // It serves login.html present in client folder
 app.get('/', function (req, res) {
   // ADD DETAILS...
-  // 判断 session 里有木有 username 有则为登入了返回favourites，没有重定向到登录页
   if (req.session.username) {
     res.statusCode = 301
     res.redirect('/favourites')
@@ -117,40 +116,33 @@ app.get('/', function (req, res) {
     });
   }
 });
-// 登入操作
+
 app.post('/login', function (req, res) {
 
   // ADD DETAILS...
   let username = req.body['username']
   let password = sha1(req.body['password'])
   // console.log(password)
-  // 创建数据库连接
   con.getConnection(function (err, connection) {
     if (err) {
       throw err
     }
     // console.log('connected')
-    // 数据库查询语句
     var sqlUser = `select * from tbl_accounts where acc_login = ?`
     connection.query(sqlUser, [username], function (err, result) {
       if (err) {
         throw err;
       }
-      // 如果用户名存在
       if (result.length) {
-        // 判断是否是相通的用户名
         if (result[0].acc_login === username) {
-          // 判断密码是否正确
           if (result[0].acc_password === password) {
             console.log('success')
-            // 返回添加 place
             console.log(req, 'req')
             req.session.username = username;
             res.statusCode = 301
             res.redirect('/favourites')
             // res.end()
           } else {
-            // 密码错误
             console.log('password wrong')
             res.statusCode = 401;
             res.setHeader('Content-type', 'text/html');
@@ -166,14 +158,12 @@ app.post('/login', function (req, res) {
           res.end();
         }
       } else {
-        // 用户名不存在
         console.log('no user find')
         res.statusCode = 401;
         res.setHeader('Content-type', 'text/html');
         res.write('no user find');
         res.end();
       }
-      // 关闭连接
       connection.release()
     });
 
@@ -187,18 +177,15 @@ app.get('/getListOfFavPlaces', function (req, res) {
   // ADD DETAILS...
   // console.log('getListOfFavPlaces')
   con.getConnection(function (err, connection) {
-    // 创建 sql 语句，为查询 tbl_places 内的全部
     var sql = `select * from tbl_places`
     connection.query(sql, function (err, result) {
       // console.log(result, 'resultresult')
-      // 构建返回 data
       var temp = {
         res: {
           placeList: result
         }
       }
       res.statusCode = 200;
-      // 设定返回类型为 json
       res.setHeader('Content-Type', 'application/json');
       res.write(JSON.stringify(temp));
       res.end();
