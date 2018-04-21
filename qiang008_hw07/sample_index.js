@@ -68,7 +68,7 @@ app.use(session({
 }));
 
 // server listens on port 9007 for incoming connections
-app.listen(9007, () => console.log('Listening on port 9007!'));
+app.listen(9007,(() => console.log('Listening on port 9007!')));
 
 // // GET method route for the favourites page.
 // It serves favourites.html present in client folder
